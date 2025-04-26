@@ -135,5 +135,29 @@ public void checkbpxexample() {
 		//driver.switchTo().alert().accept();
 	}
 	
+	@Test(priority=8,description = "play with data of coloumn")
+	
+	public void webtableexample() {
+		//get the id of all the table 
+		WebElement thetable= driver.findElement(By.id("product"));
+		//inside the table get all the rows by tag name 
+		List <WebElement> thedatainsidetable = thetable.findElements(By.tagName("tr"));
+		//we start from 1 to execlude the th header of table 
+		for (int i=1;i<thedatainsidetable.size();i++){
+		int totalidinrow = thedatainsidetable.get(i).findElements(By.tagName("td")).size();
+		System.out.println(
+				
+				thedatainsidetable.get(i).findElements(By.tagName("td")).get(totalidinrow-1).getText());
+				
+					
+		}
+		}
+		
+	}
+	
+	
+	
+	
+	
 
-}
+
