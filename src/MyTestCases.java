@@ -5,6 +5,7 @@ import java.awt.RenderingHints.Key;
 import java.awt.Window;
 import java.awt.event.WindowStateListener;
 import java.sql.Driver;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +16,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
@@ -27,6 +29,8 @@ public class MyTestCases {
 	String website = "https://codenboxautomationlab.com/practice/";
 	Random rand = new Random();
 	JavascriptExecutor js = (JavascriptExecutor) driver;
+	//this is related to test 12
+	Actions action = new Actions(driver);
 
 	
 	@BeforeTest
@@ -35,9 +39,11 @@ public class MyTestCases {
 		
 		driver.manage().window().maximize();
 		driver.get(website);
+		//like thread . sleep
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 	}
 	
-	@Test(priority=1,description = "Radio button",invocationCount = 1)//invocationCount تكرار
+	@Test(priority=1,description = "Radio button",invocationCount = 1,enabled=false)//invocationCount تكرار
 	
 	public void  RadioButtonExample() {
 		
@@ -56,7 +62,7 @@ public class MyTestCases {
 		
 	}
 	
-   @Test(priority=2,description = "Dropdown dynamic")
+   @Test(priority=2,description = "Dropdown dynamic",enabled=false)
 
 	public void DynamicDropdownExample() throws InterruptedException {
 	   
@@ -94,7 +100,7 @@ public class MyTestCases {
 	  Assert.assertEquals(actualvalue, Excpectedresult);
   }
 	
-	@Test(priority=3,description = "Static Dropdown Example")
+	@Test(priority=3,description = "Static Dropdown Example",enabled=false)
 public void StaticDropdownExample () {
 		
 		WebElement selectstaticdroplist = driver.findElement(By.id("dropdown-class-example"));
@@ -109,7 +115,7 @@ public void StaticDropdownExample () {
 		
 	}
 	
-	@Test(priority=4,description = "check box example")
+	@Test(priority=4,description = "check box example",enabled=false)
 	
 public void checkbpxexample() {
 		//  //tagname [@attributename='value of the attributte']
@@ -143,7 +149,7 @@ public void checkbpxexample() {
 	
 	}
 	
-		@Test(priority=6,description = "Switch to tab example")
+		@Test(priority=6,description = "Switch to tab example",enabled=false)
 		public void swetichtabexample() {
 			WebElement opentab = driver.findElement(By.id("opentab"));
 			opentab.click();
@@ -157,7 +163,7 @@ public void checkbpxexample() {
 		
 		
 	
-	@Test(priority=7,description = "Alert and confirm")
+	@Test(priority=7,description = "Alert and confirm",enabled=false)
 	
 	public void Alertandconfirm(){	
 		WebElement entername = driver.findElement(By.id("name"));
@@ -178,7 +184,7 @@ public void checkbpxexample() {
 		//driver.switchTo().alert().accept();
 	}
 	
-	@Test(priority=8,description = "play with data of coloumn")
+	@Test(priority=8,description = "play with data of coloumn",enabled=false)
 	
 	public void webtableexample() {
 		//get the id of all the table 
@@ -196,7 +202,7 @@ public void checkbpxexample() {
 		}
 		}
 	
-	@Test(priority=9,description = "show and hide button")
+	@Test(priority=9,description = "show and hide button",enabled=false)
 	public void elementdisplay() {
 		//hard assert will stop all the execution
 		//soft assert will continoue even if one is failed
@@ -221,7 +227,7 @@ public void checkbpxexample() {
 		
 	}
 	
-	@Test(priority=10)	
+	@Test(priority=10,description = "check the title of the page",enabled=false)	
 	
 	public void checkthetitle() {
 		
@@ -232,12 +238,100 @@ public void checkbpxexample() {
 	}
 	
 	
+	@Test(priority=11,description = "Enabled/Disabled Example",enabled =false)	
+
+	public void enabledisableexample() {
+		
+		WebElement disablebutton = driver.findElement(By.id("disabled-button"));
+		
+		WebElement enablebutton = driver.findElement(By.id("enabled-button"));
+		
+		disablebutton.click();
+		
+		WebElement enabledisablefield = driver.findElement(By.id("enabled-example-input"));		
+		
+		Boolean actualresult = enabledisablefield.isEnabled();
+		Boolean expectedresult = false;
+        Assert.assertEquals(actualresult, expectedresult);
+
+        enablebutton.click();
+        Boolean actualresult2 = enabledisablefield.isEnabled();
+        enabledisablefield.sendKeys("germany");
+		Boolean expectedresult2 = true;
+        Assert.assertEquals(actualresult2, expectedresult2);
+
+
+        
+	}
+	
+	
+	@Test(priority=12,description = "Mouse Hover Example",enabled =false)	
+	
+	public void mousehoverexample() throws InterruptedException {
+		
+		js.executeScript("window.scroll, 1800");
+		Thread.sleep(2000);
+
+		
+		WebElement mousehoverbutton = driver.findElement(By.id("mousehover"));
+		action.moveToElement(mousehoverbutton).perform();
+		
+		Thread.sleep(1000);
+		
+		driver.findElement(By.linkText("Top")).click();
+		//driver.findElement(By.partialLinkText("Relo"));
+		
+		
+		
+	}
+	@Test(priority=13,description = "calendar Example",enabled =false)	
+	public void calendarexample() throws InterruptedException {
+		//this is not the easiest way
+		//WebElement opencalendar = driver.findElement(By.xpath("//a[@href='https://codenboxautomationlab.com/about/booking/']"));
+		//opencalendar.click();
+		WebElement opencalenda2 = driver.findElement(By.linkText("Booking Calendar"));
+		opencalenda2.click();
+		
+		Thread.sleep(1000);
+		List<String> windowhandle = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(windowhandle.get(1));
+		
+		int totalavailabledate = driver.findElements(By.className("date_available")).size();
+		driver.findElements(By.className("date_available")).get(0).click();
+		driver.findElements(By.className("date_available")).get(totalavailabledate-1).click();
+		
+		
+		
+	}
+
+	@Test(priority=14,description = "iframe Example",enabled =false)	
+	public void iframeexample() {
+		//there are three way to switch to frame by name or id or get 0
+		//WebElement theframe = driver.findElement(By.id("courses-iframe"));
+		//driver.switchTo().frame(theframe);
+		driver.switchTo().frame(0);
+		String thetext = driver.findElement(By.xpath("//*[@id=\"ct_text_editor-be8c5ad\"]/div/div")).getText();
+		System.out.println(thetext);
+		
+		
+		
+	}
+	@Test(priority=15,description = "download file Example")	
+	public void downloadfile() {
+		
+		WebElement download = driver.findElement(By.xpath("//a[@href='http://codenboxautomationlab.com/wp-content/uploads/2022/12/APKFiles-1.zip']"));
+		//or you can choose by css selector and put . and remove space and put .
+		//WebElement download = driver.findElement(By.cssSelector(".wp-block-button__link.wp-element-button"));
+		//WebElement download = driver.findElement(By.xpath("//a[@class='wp-block-button__link wp-element-button']"));
+
+		download.click();
+		
 	
 	}
 	
 	
 	
-	
+}
 	
 
 
